@@ -1,0 +1,82 @@
+﻿<Window x:Class="RheaChatBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:Res="clr-namespace:RheaChatBot.Resources"
+        xmlns:local="clr-namespace:RheaChatBot"
+        xmlns:VM="clr-namespace:RheaChatBot.ViewModels"
+        mc:Ignorable="d"
+        Title="Rhea ChatBot" Height="550" Width="350"
+        
+        Loaded="Window_Loaded"
+        
+        BorderThickness="0"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#cfff"
+        ResizeMode="CanMinimize"
+        >
+    <Window.DataContext>
+        <VM:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Border Background="{StaticResource AccentColor}"
+                        Padding="10"
+                        PreviewMouseLeftButtonDown="Border_PreviewMouseLeftButtonDown">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="35" Height="35" Fill="{StaticResource SubAccentColor}"/>
+                        <TextBlock Text="Rhea Marie Alonda Chatbot"
+                                   Foreground="{StaticResource SecondaryForeground}"
+                                   VerticalAlignment="Center"
+                                   Margin="10 0 0 0"
+                                   FontSize="15"
+                                   FontWeight="Bold"
+                                   FontFamily="Times New Roman"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Footer -->
+                <Separator Grid.Row="2" Background="{StaticResource SubAccentColor}" Margin="10 0"/>
+                <Border Grid.Row="3" BorderThickness="0 1 0 0" Padding="3">
+                    <Grid Margin="3 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="MessageBox"
+                                 Text="{Binding MessageBox, UpdateSourceTrigger=PropertyChanged}"
+                                 Margin="1 3 2 4"
+                                 Style="{StaticResource SendMessageBox}"
+                                 KeyUp="MessageBox_KeyUp">
+                            <Res:WatermarkService.Watermark>
+                                <TextBlock Text="Type here..." Margin="11 8 0 0"/>
+                            </Res:WatermarkService.Watermark>
+                        </TextBox>
+                        <Button Grid.Column="1" Content="{StaticResource SendIcon}" IsEnabled="{Binding EnableSent}"
+                                Style="{StaticResource SendButtonStyle}" Click="Button_Click"/>
+                    </Grid>
+                </Border>
+
+
+                <!-- Main Container -->
+                <Border Grid.Row="1"  Padding="10 0 0 0">
+                    <ScrollViewer>
+                        <ItemsControl ItemsSource="{Binding Items}"/>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
